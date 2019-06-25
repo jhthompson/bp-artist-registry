@@ -393,7 +393,7 @@
      */
     DraggablePiechart.prototype.draw = function () {
         // responsive hack-ish fix for the pie chart size
-        this.canvas.width  = Math.min(document.getElementsByClassName("field_select-your-culture-sector-occupations")[0].offsetWidth, document.getElementsByClassName("field_select-your-culture-sector-occupations")[0].offsetHeight);
+        this.canvas.width  = Math.min(Math.min(window.innerWidth, window.innerHeight));
         this.canvas.height = this.canvas.width;
         
         var piechart = this;
