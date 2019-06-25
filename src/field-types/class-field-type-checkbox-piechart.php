@@ -62,8 +62,10 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox {
 	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
+		// do everything that a normal checkbox would do
 		parent::edit_field_options_html( $args );
 
+		// now do custom things to get selected values and output them in the pie chart
 		printf('<p>Hello world!</p>');
 	}
 }
