@@ -147,6 +147,9 @@ class Assets_Loader {
 
 		wp_register_style( 'select2', $url . 'assets/vendors/select2/select2.min.css', array(), '4.0.2' );
 
+		wp_register_script( 'draggable-piechart', $url . 'assets/vendors/draggable-piechart/draggable-piechart.js', array(), '1.0.2', false );
+
+
 	}
 
 	/**
