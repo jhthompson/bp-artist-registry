@@ -10,12 +10,12 @@
  */
 
 /**
- * Plugin Name: BuddyPress Xprofile Custom Field Types
+ * Plugin Name: BuddyPress Xprofile Custom Field Types & Artist Registry Custom
  * Plugin URI: https://buddydev.com/plugins/buddypress-xprofile-custom-field-types/
  * Description: Have all the extra field types at your disposal.
  * Version: 1.0.9
  * Requires PHP: 5.3
- * Author: BuddyDev
+ * Author: BuddyDev & Jeremy Thompson
  * Author URI: https://buddydev.com
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
