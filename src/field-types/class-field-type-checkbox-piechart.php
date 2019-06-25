@@ -13,27 +13,29 @@
 namespace BPXProfileCFTR\Field_Types;
 
 // No direct access.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit( 0 );
+if (!defined('ABSPATH')) {
+	exit(0);
 }
 
 /**
  * Tos field.
  */
-class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox {
+class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
+{
 
-	public function __construct() {
+	public function __construct()
+	{
 
 		parent::__construct();
 
-		$this->category = _x( 'Multi Fields', 'xprofile field type category', 'buddypress' );
-		$this->name     = _x( 'Checkboxes with Pie Chart', 'xprofile field type', 'buddypress' );
+		$this->category = _x('Multi Fields', 'xprofile field type category', 'buddypress');
+		$this->name     = _x('Checkboxes with Pie Chart', 'xprofile field type', 'buddypress');
 
 		$this->supports_multiple_defaults = true;
 		$this->accepts_null_value         = true;
 		$this->supports_options           = true;
 
-		$this->set_format( '/^.+$/', 'replace' );
+		$this->set_format('/^.+$/', 'replace');
 
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_Checkbox class.
@@ -43,7 +45,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox {
 		 * @param BP_XProfile_Field_Type_Checkbox_Piechart $this Current instance of
 		 *                                              the field type checkbox.
 		 */
-		do_action( 'bp_xprofile_field_type_checkbox_piechart', $this );
+		do_action('bp_xprofile_field_type_checkbox_piechart', $this);
 	}
 
 	/**
@@ -61,12 +63,26 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox {
 	 *
 	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 */
-	public function edit_field_options_html( array $args = array() ) {
+	public function edit_field_options_html(array $args = array())
+	{
 		// do everything that a normal checkbox would do
-		parent::edit_field_options_html( $args );
+		parent::edit_field_options_html($args);
 
 		// now do custom things to get selected values and output them in the pie chart
 		printf('<p>Hello world!</p>');
+
+		printf('
+		<div id="piechart-controls">
+			<canvas id="piechart" width="400" height="400">Your browser is too old!</canvas>
+			<br>
+			<table id="proportions-table"></table>
+			<br>
+			<p id="piechart-instructions">
+				Drag the circles or click the buttons to adjust the pie chart. If a segment has gone,
+				you can get it back by clicking its plus button.
+			</p>
+
+		</div>
+		');
 	}
 }
-
