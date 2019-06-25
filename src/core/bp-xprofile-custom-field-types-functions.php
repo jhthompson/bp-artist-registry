@@ -42,6 +42,8 @@ function bpxcftr_get_field_types() {
 		'slider'                       => 'BPXProfileCFTR\Field_Types\Field_Type_Slider',
 		'fromto'                       => 'BPXProfileCFTR\Field_Types\Field_Type_From_To',
 		// end of the BuddyPress Xprofile Custom Fields Type plugin's field type.
+		// start of artist registry custom fields
+		'piechart'                     => 'BPXProfileCFTR\Field_Types\Field_Type_Checkbox_Piechart',
 
 	);
 
