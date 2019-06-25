@@ -26,15 +26,45 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox {
 
 		parent::__construct();
 
-		$this->name     = _x( 'Checkbox and Pie Chart', 'xprofile field type', 'bp-xprofile-custom-field-types' );
-		$this->category = _x( 'Custom Fields', 'xprofile field type category', 'bp-xprofile-custom-field-types' );
+		$this->category = _x( 'Multi Fields', 'xprofile field type category', 'buddypress' );
+		$this->name     = _x( 'Checkboxes with Pie Chart', 'xprofile field type', 'buddypress' );
 
-		$this->supports_multiple_defaults = false;
-		$this->accepts_null_value         = false;
-		$this->supports_options           = false;
+		$this->supports_multiple_defaults = true;
+		$this->accepts_null_value         = true;
+		$this->supports_options           = true;
 
 		$this->set_format( '/^.+$/', 'replace' );
+
+		/**
+		 * Fires inside __construct() method for BP_XProfile_Field_Type_Checkbox class.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param BP_XProfile_Field_Type_Checkbox_Piechart $this Current instance of
+		 *                                              the field type checkbox.
+		 */
 		do_action( 'bp_xprofile_field_type_checkbox_piechart', $this );
+	}
+
+	/**
+	 * Output the edit field options HTML for this field type.
+	 *
+	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
+	 * These are stored separately in the database, and their templating is handled separately.
+	 *
+	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
+	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
+	 *
+	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
+	 */
+	public function edit_field_options_html( array $args = array() ) {
+		parent::edit_field_options_html( $args );
+
+		printf('<p>Hello world!</p>');
 	}
 }
 
