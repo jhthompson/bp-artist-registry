@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Tos field.
+ * Checkbox and piechart field.
  */
 class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 {
@@ -84,6 +84,37 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		</div>
 		');
+
+		$options       = $this->field_obj->get_children();
+		$option_values = maybe_unserialize( \BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] ) );
+
+		$option_values = ( $option_values ) ? (array) $option_values : array();
+
+		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
+			printf($k);
+
+			$selected = '';
+
+			// First, check to see whether the user's saved values match the option.
+			for ( $j = 0, $count_values = count( $option_values ); $j < $count_values; ++$j ) {
+
+				// Run the allowed option name through the before_save filter,
+				// so we'll be sure to get a match.
+				$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+
+				if ( $option_values[$j] === $allowed_options || in_array( $allowed_options, $option_values ) ) {
+					$selected = ' checked="checked"';
+					break;
+				}
+			}
+
+			// If the user has not yet supplied a value for this field, check to
+			// see whether there is a default value available.
+			if ( empty( $selected ) && $select_default_option && ! empty( $options[$k]->is_default_option ) ) {
+				$selected = ' checked="checked"';
+			}
+			
+		}
 
 		printf('
 
