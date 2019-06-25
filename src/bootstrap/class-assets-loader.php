@@ -109,6 +109,7 @@ class Assets_Loader {
 		wp_enqueue_script( 'jscolor' );
 		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'select2-i18n' );
+		wp_enqueue_script( 'draggable-piechart' );
 	}
 
 	/**
