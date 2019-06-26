@@ -164,11 +164,15 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 			function setupPieChart() {
 
-				var checkbox_ids = %s;
-
+				var checkbox_ids = [%s];
+				var checkbox_ids_strings = checkbox_ids.map(function(element) {
+					return element[\'value\'];
+				});
+				var defaults = [\'walking\', \'programming\', \'chess\', \'eating\', \'sleeping\'];
 				console.log(checkbox_ids);
+				console.log(defaults);
 
-				var dimensions = knuthfisheryates2(checkbox_ids);
+				var dimensions = knuthfisheryates2(checkbox_ids_strings);
 				var randomProportions = generateRandomProportions(dimensions.length, 0.05);
 				var proportions = dimensions.map(function(d,i) { return {
 					label: d,
