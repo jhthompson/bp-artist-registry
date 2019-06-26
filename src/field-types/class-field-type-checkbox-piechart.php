@@ -87,14 +87,14 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		$options       = $this->field_obj->get_children();
 		foreach ($options as $value) {
-			print_r($value);
+			//print_r($value);
 		}
 
-		printf($options[0]->id);
-		printf(' <- options[0]->id ');
+		//printf($options[0]->id);
+		//printf(' <- options[0]->id ');
 
-		printf($options[0]->name);
-		printf(' <- options[0]->name ');
+		//printf($options[0]->name);
+		//printf(' <- options[0]->name ');
 
 		$option_values = maybe_unserialize(\BP_XProfile_ProfileData::get_value_byid($this->field_obj->id, $args['user_id']));
 
@@ -165,18 +165,30 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 			function setupPieChart() {
 
 				var checkbox_ids = [%s];
+				var checkbox_ids_checked = [];
+
+				var i;
+				for (i = 0; i < checkbox_ids.length; i++) {
+					checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed dynamically
+															 // would be better if it was its own different function, not the original setup
+					if (checkbox_ids[i].checked) {
+					 	checkbox_ids_checked.push(checkbox_ids[i][\'value\']);
+					}
+				}
+
 				var checkbox_ids_strings = checkbox_ids.map(function(element) {
 					return element[\'value\'];
 				});
+
 				var defaults = [\'walking\', \'programming\', \'chess\', \'eating\', \'sleeping\'];
-				console.log(checkbox_ids);
+				console.log(checkbox_ids_checked);
 				console.log(defaults);
 
-				var dimensions = knuthfisheryates2(checkbox_ids_strings);
-				var randomProportions = generateRandomProportions(dimensions.length, 0.05);
+				var dimensions = knuthfisheryates2(checkbox_ids_checked);
+				var equalProportions = generateEqualProportions(dimensions.length);
 				var proportions = dimensions.map(function(d,i) { return {
 					label: d,
-					proportion: randomProportions[i],
+					proportion: equalProportions[i],
 					collapsed: false,
 					format: {
 						label: d.charAt(0).toUpperCase() + d.slice(1) // capitalise first letter
@@ -291,6 +303,20 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 						return sortedProportions;
 					}
+				}
+
+				/*
+				* Generates n equal proportions
+				*/
+				function generateEqualProportions(n) {
+					var proportions = [];
+					var i;
+
+					for (i = 0; i < n; i++) {
+						proportions.push(1.0 / n);	
+					}
+
+					return proportions;
 				}
 
 				/*
