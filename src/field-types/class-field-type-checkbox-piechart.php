@@ -150,7 +150,20 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 				
 		var newPie; // testing as global 
 
+		
+		window.onresize = function(event) {
+			if(newPie) {
+				console.log("trying to redraw?");
+				var canvas = document.getElementById("piechart");
+				var parent = document.getElementsByClassName("field_type_piechart")[0];
+				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) / 3;
+				canvas.height = canvas.width;
+				newPie.draw();
+			}
+		};
+
 		(function(){
+
 
 			//IE9+ http://youmightnotneedjquery.com/
 			function ready(fn) {
@@ -168,6 +181,12 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 			}
 
 			function setupPieChart() {
+
+				var canvas = document.getElementById("piechart");
+				var parent = document.getElementsByClassName("field_type_piechart")[0];
+				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) / 3;
+				canvas.height = canvas.width;
+
 
 				// Start by setting up all checkbox listeners and getting which ones are checked
 				var all_checkbox_ids = [%s];
@@ -241,7 +260,11 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					context.translate(centerX, centerY);
 					context.rotate(startingAngle);
 
-					var fontSize = Math.floor(context.canvas.height / 25);
+					var canvasInner = document.getElementById("piechart");
+					var parentInner = document.getElementsByClassName("field_type_piechart")[0];
+
+					var fontSize = Math.floor(Math.min(parentInner.offsetWidth, parentInner.offsetHeight) / 25 / 3);
+					console.log(fontSize);
 					var dx = radius - fontSize;
 					var dy = centerY / 10;
 
@@ -258,8 +281,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 					var labelsRow = \'<tr>\';
 					var propsRow = \'<tr>\';
-					for(var i = 0; i < proportions.length; i += 1) {
-						labelsRow += \'<th>\' + proportions[i].format.label + \'</th>\';
+					for(var i = 0; i < piechart.data.length; i += 1) {
+						labelsRow += \'<th>\' + piechart.data[i].format.label + \'</th>\';
 
 						var v = \'<var>\' + percentages[i].toFixed(0) + \'</var>\';
 						var plus = \'<div id="plu-\' + dimensions[i] + \'" class="adjust-button" data-i="\' + i + \'" data-d="-1">&#43;</div>\';

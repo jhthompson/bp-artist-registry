@@ -432,8 +432,9 @@
      */
     DraggablePiechart.prototype.draw = function () {
         // responsive hack-ish fix for the pie chart size
-        this.canvas.width  = Math.min(Math.min(window.innerWidth, window.innerHeight));
-        this.canvas.height = this.canvas.width;
+        //this.canvas.width  = 100; //Math.min(Math.min(window.innerWidth, window.innerHeight));
+        //this.canvas.height = this.canvas.width;
+        console.log("In draw");
         
         var piechart = this;
         var context = piechart.context;
