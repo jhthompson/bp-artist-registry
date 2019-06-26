@@ -150,6 +150,45 @@
     };
 
     /*
+         * Generates angle data from proportions (array of objects with proportion, format
+         */
+        function generateDataFromProportions(proportions) {
+
+            // sum of proportions
+            var total = proportions.reduce(function(a, v) { return a + v.proportion; }, 0);
+
+            // begin at 0
+            var currentAngle = 0;
+
+            // use the proportions to reconstruct angles
+            return proportions.map(function(v, i) {
+                var arcSize = TAU * v.proportion / total;
+                var data = {
+                    angle: currentAngle,
+                    format: v.format,
+                    collapsed: arcSize <= 0
+                };
+                currentAngle = normaliseAngle(currentAngle + arcSize);
+                return data;
+            });
+
+        }
+
+    /*
+    * Change the currently used data
+    */
+    DraggablePiechart.prototype.setData = function(dataInformation) {
+        if (dataInformation.proportions) {
+            this.data = generateDataFromProportions(dataInformation.proportions);
+        } else if (dataInformation.data) {
+            this.data = setup.data;
+        }
+
+        this.draw();
+    }
+
+
+    /*
      * Move angle specified by index: i, by amount: angle in rads
      */
     DraggablePiechart.prototype.moveAngle = function(i, amount) {

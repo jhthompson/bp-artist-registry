@@ -148,6 +148,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		<script>
 				
+		var newPie; // testing as global 
+
 		(function(){
 
 			//IE9+ http://youmightnotneedjquery.com/
@@ -161,30 +163,35 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 			ready(setupPieChart);
 
+			function checkboxListener() {
+				alert("checked");
+			}
 
 			function setupPieChart() {
 
-				var checkbox_ids = [%s];
+				// Start by setting up all checkbox listeners and getting which ones are checked
+				var all_checkbox_ids = [%s];
 				var checkbox_ids_checked = [];
 
 				var i;
-				for (i = 0; i < checkbox_ids.length; i++) {
-					checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed dynamically
+				for (i = 0; i < all_checkbox_ids.length; i++) {
+					all_checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed dynamically
 															 // would be better if it was its own different function, not the original setup
-					if (checkbox_ids[i].checked) {
-					 	checkbox_ids_checked.push(checkbox_ids[i][\'value\']);
+					if (all_checkbox_ids[i].checked) {
+						console.log("adding " + all_checkbox_ids[i][\'value\'] + " to the checked ");
+					 	checkbox_ids_checked.push(all_checkbox_ids[i][\'value\']);
 					}
 				}
 
-				var checkbox_ids_strings = checkbox_ids.map(function(element) {
-					return element[\'value\'];
-				});
+				//var checkbox_ids_strings = all_checkbox_ids.map(function(element) {
+				//	return element[\'value\'];
+				//});
 
 				var defaults = [\'walking\', \'programming\', \'chess\', \'eating\', \'sleeping\'];
 				console.log(checkbox_ids_checked);
 				console.log(defaults);
 
-				var dimensions = knuthfisheryates2(checkbox_ids_checked);
+				var dimensions = checkbox_ids_checked; //knuthfisheryates2(checkbox_ids_checked);
 				var equalProportions = generateEqualProportions(dimensions.length);
 				var proportions = dimensions.map(function(d,i) { return {
 					label: d,
@@ -205,7 +212,12 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					onchange: onPieChartChange
 				};
 
-				var newPie = new DraggablePiechart(setup);
+				if (newPie) {
+					newPie.setData(setup);
+					console.log("pie chart already created");
+				} else {
+					newPie = new DraggablePiechart(setup); //TODO: this cannot call setupPieChart again or else new pie gets created each time
+				}
 
 				function drawSegmentOutlineOnly(context, piechart, centerX, centerY, radius, startingAngle, arcSize, format, collapsed) {
 
