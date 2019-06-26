@@ -184,7 +184,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 				var canvas = document.getElementById("piechart");
 				var parent = document.getElementsByClassName("field_type_piechart")[0];
-				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) / 3;
+				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) * 0.75;
 				canvas.height = canvas.width;
 
 
@@ -197,7 +197,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					all_checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed dynamically
 															 // would be better if it was its own different function, not the original setup
 					if (all_checkbox_ids[i].checked) {
-						console.log("adding " + all_checkbox_ids[i][\'value\'] + " to the checked ");
+						//console.log("adding " + all_checkbox_ids[i][\'value\'] + " to the checked ");
 					 	checkbox_ids_checked.push(all_checkbox_ids[i][\'value\']);
 					}
 				}
@@ -206,9 +206,9 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 				//	return element[\'value\'];
 				//});
 
-				var defaults = [\'walking\', \'programming\', \'chess\', \'eating\', \'sleeping\'];
-				console.log(checkbox_ids_checked);
-				console.log(defaults);
+				//var defaults = [\'walking\', \'programming\', \'chess\', \'eating\', \'sleeping\'];
+				//console.log(checkbox_ids_checked);
+				//console.log(defaults);
 
 				var dimensions = checkbox_ids_checked; //knuthfisheryates2(checkbox_ids_checked);
 				var equalProportions = generateEqualProportions(dimensions.length);
@@ -233,9 +233,9 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 				if (newPie) {
 					newPie.setData(setup);
-					console.log("pie chart already created");
+					//console.log("pie chart already created");
 				} else {
-					newPie = new DraggablePiechart(setup); //TODO: this cannot call setupPieChart again or else new pie gets created each time
+					newPie = new DraggablePiechart(setup); 
 				}
 
 				function drawSegmentOutlineOnly(context, piechart, centerX, centerY, radius, startingAngle, arcSize, format, collapsed) {
@@ -263,8 +263,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					var canvasInner = document.getElementById("piechart");
 					var parentInner = document.getElementsByClassName("field_type_piechart")[0];
 
-					var fontSize = Math.floor(Math.min(parentInner.offsetWidth, parentInner.offsetHeight) / 25 / 3);
-					console.log(fontSize);
+					var fontSize = Math.floor(Math.min(parentInner.offsetWidth, parentInner.offsetHeight) * 0.75 / 25 );
+					//console.log(fontSize);
 					var dx = radius - fontSize;
 					var dy = centerY / 10;
 
