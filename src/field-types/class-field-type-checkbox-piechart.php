@@ -156,7 +156,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 				console.log("trying to redraw?");
 				var canvas = document.getElementById("piechart");
 				var parent = document.getElementsByClassName("field_type_piechart")[0];
-				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) / 3;
+				canvas.width = parent.offsetWidth * 0.75;
 				canvas.height = canvas.width;
 				newPie.draw();
 			}
@@ -184,7 +184,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 				var canvas = document.getElementById("piechart");
 				var parent = document.getElementsByClassName("field_type_piechart")[0];
-				canvas.width = Math.min(parent.offsetWidth, parent.offsetHeight) * 0.75;
+				canvas.width = parent.offsetWidth * 0.75;
 				canvas.height = canvas.width;
 
 
@@ -263,7 +263,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					var canvasInner = document.getElementById("piechart");
 					var parentInner = document.getElementsByClassName("field_type_piechart")[0];
 
-					var fontSize = Math.floor(Math.min(parentInner.offsetWidth, parentInner.offsetHeight) * 0.75 / 25 );
+					var fontSize = Math.floor(parentInner.offsetWidth / 35 );
 					//console.log(fontSize);
 					var dx = radius - fontSize;
 					var dy = centerY / 10;
