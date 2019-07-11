@@ -18,17 +18,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Interactive JavaScript map Type
  */
-class Field_Type_Slider extends \BP_XProfile_Field_Type {
+class Field_Type_Leaflet_Map extends \BP_XProfile_Field_Type {
 	public function __construct() {
 		parent::__construct();
 
-		$this->name     = __( 'Javascript map input (HTML5 field)', 'bp-xprofile-custom-field-types' );
+		$this->name     = __( 'Javascript map', 'bp-xprofile-custom-field-types' );
 		$this->category = _x( 'Custom Fields', 'xprofile field type category', 'bp-xprofile-custom-field-types' );
 
 		$this->accepts_null_value = true;
 		$this->supports_options   = false;
 
-		do_action( 'bp_xprofile_field_type_slider', $this );
+		do_action( 'bp_xprofile_field_type_leaflet_map', $this );
 	}
 
 	/**
