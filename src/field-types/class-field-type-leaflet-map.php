@@ -22,7 +22,7 @@ class Field_Type_Leaflet_Map extends \BP_XProfile_Field_Type {
 	public function __construct() {
 		parent::__construct();
 
-		$this->name     = __( 'Javascript map', 'bp-xprofile-custom-field-types' );
+		$this->name     = __( 'Leaflet Map', 'bp-xprofile-custom-field-types' );
 		$this->category = _x( 'Custom Fields', 'xprofile field type category', 'bp-xprofile-custom-field-types' );
 
 		$this->accepts_null_value = true;
@@ -56,6 +56,19 @@ class Field_Type_Leaflet_Map extends \BP_XProfile_Field_Type {
 			<?php bp_the_profile_field_name(); ?>
 			<?php bp_the_profile_field_required_label(); ?>
         </legend>
+
+		<div id="mapid" style="height: 400px;"></div>
+
+		<script>
+		var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+		L.tileLayer('https://a.tile.openstreetmap.org/${z}/${x}/${y}.png', {
+    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    		maxZoom: 18,
+			id: 'mapbox.streets'		
+		}).addTo(mymap);
+
+		</script>
 
         <?php
 		// Errors.
