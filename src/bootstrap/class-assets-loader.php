@@ -110,6 +110,9 @@ class Assets_Loader {
 		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'select2-i18n' );
 		wp_enqueue_script( 'draggable-piechart' );
+		wp_enqueue_style( 'leaflet' );
+		wp_enqueue_script( 'leaflet' );
+
 	}
 
 	/**
@@ -149,7 +152,9 @@ class Assets_Loader {
 
 		wp_register_script( 'draggable-piechart', $url . 'assets/vendors/draggable-piechart/draggable-piechart.js', array(), '1.0.2', false );
 
+		wp_register_script( 'leaflet', $url . "assets/vendors/leaflet/leaflet.js", '1.5.1', true );
 
+		wp_register_style( 'leaflet', $url . 'assets/vendors/leaflet/leaflet.css', array(), '1.5.1' );
 	}
 
 	/**
