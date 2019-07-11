@@ -84,6 +84,39 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 		</div>
 		');
 
+		printf("
+		<script>
+
+		jQuery(function($) {
+			$(document).ready(function() {
+				//set initial state.
+				//$('#field_7_3').val(this.checked);
+			
+				$('#field_7_3').change(function() {
+					var label = $(\"label[for='\" + $(this).attr('id') + \"'] span\");
+
+					if($(this).is(':checked')) {
+						//var returnVal = confirm('Are you sure?');
+						//var label = $(\"label[for='\" + $(this).attr('id') + \"'] span\");
+						//var oldtext = $(label).text();
+
+						$(label).text(' hello world');
+						console.log(label);
+
+						$('#field_7_3').attr('new value');
+						//$(this).prop('checked', returnVal);
+					}
+					else {
+						$(label).text(' ');
+					}
+					$('#field_7_3').val(this.checked);        
+				});
+			});
+		});
+
+		</script>
+		");
+
 		$options       = $this->field_obj->get_children();
 		foreach ($options as $value) {
 			//print_r($value);
@@ -94,17 +127,20 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		for ($i = 0; $i < count($options); ++$i) {
 			$checkbox_ids[$i] = sprintf('field_%s_%s', $options[$i]->id, $options[$i]->option_order - 1);
-			echo $checkbox_ids[$i];
+			//echo $checkbox_ids[$i];
 		}
 
 		$checkbox_string = implode(", ", $checkbox_ids);
-		echo($checkbox_string);
+		//echo($checkbox_string);
 
 		echo sprintf('
 
 		<script>
 				
 		var newPie; // testing as global 
+
+		// Start by setting up all checkbox listeners and getting which ones are checked
+		var all_checkbox_ids = [%s]; // global for access in the on click method for table
 
 		
 		window.onresize = function(event) {
@@ -143,15 +179,14 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 				canvas.width = parent.offsetWidth * 0.75;
 				canvas.height = canvas.width;
 
-
-				// Start by setting up all checkbox listeners and getting which ones are checked
-				var all_checkbox_ids = [%s];
 				var checkbox_ids_checked = [];
 
 				var i;
 				for (i = 0; i < all_checkbox_ids.length; i++) {
-					all_checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed dynamically
-															 // would be better if it was its own different function, not the original setup
+
+					//console.log(all_checkbox_ids[i]);
+					all_checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed from pie chart dynamically
+															     // would be better if it was its own different function, not the original setup
 					if (all_checkbox_ids[i].checked) {
 						//console.log("adding " + all_checkbox_ids[i][\'value\'] + " to the checked ");
 					 	checkbox_ids_checked.push(all_checkbox_ids[i][\'value\']);
@@ -241,8 +276,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 						labelsRow += \'<th>\' + piechart.data[i].format.label + \'</th>\';
 
 						var v = \'<var>\' + percentages[i].toFixed(0) + \'</var>\';
-						var plus = \'<div id="plu-\' + dimensions[i] + \'" class="adjust-button" data-i="\' + i + \'" data-d="-1">&#43;</div>\';
-						var minus = \'<div id="min-\' + dimensions[i] + \'" class="adjust-button" data-i="\' + i + \'" data-d="1">&#8722;</div>\';
+						var plus = \'<div id="plu-\' + newPie.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="-1">&#43;</div>\';
+						var minus = \'<div id="min-\' + newPie.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="1">&#8722;</div>\';
 						propsRow += \'<td>\' + v + plus + minus + \'</td>\';
 					}
 					labelsRow += \'</tr>\';
@@ -257,6 +292,17 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 						var d = this.getAttribute(\'data-d\');
 
 						piechart.moveAngle(i, (d * 0.1));
+
+						var name = this.getAttribute(\'id\').substr(4);
+
+						var i;
+						for(i = 0; i < all_checkbox_ids.length; i++) {
+							if (all_checkbox_ids[i][\'value\'] == name) {
+								//console.log("We got a match " + name);
+							}
+						}
+						
+						//console.log(name);
 					}
 
 					for (i = 0; i < adjust.length; i++) {

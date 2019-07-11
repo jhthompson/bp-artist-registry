@@ -181,7 +181,7 @@
         if (dataInformation.proportions) {
             this.data = generateDataFromProportions(dataInformation.proportions);
         } else if (dataInformation.data) {
-            this.data = setup.data;
+            this.data = dataInformation.data;
         }
 
         this.draw();
