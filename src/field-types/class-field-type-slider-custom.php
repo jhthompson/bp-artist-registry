@@ -89,7 +89,7 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 				$handle.append(handleValue);
 				
 				// get range index labels 
-				var rangeLabels = this.$element.attr('labels');
+				var rangeLabels = "150, 160, 170, 180, 190, 200, 210"; //this.$element.attr('labels');
 				rangeLabels = rangeLabels.split(', ');
 				
 				// add labels
@@ -116,8 +116,6 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 		do_action( bp_get_the_profile_field_errors_action() );
 		// Input.
 		?>
-        <input <?php echo $this->get_edit_field_html_elements( array_merge( $args, $raw_properties ) ); ?> />
-        <span id="output-field_<?php echo $field->id; ?>"></span>
 
         <?php  if ( bp_get_the_profile_field_description() ) : ?>
             <p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
