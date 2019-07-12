@@ -22,7 +22,7 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 	public function __construct() {
 		parent::__construct();
 
-		$this->name     = __( 'Custom range input (HTML5 field)', 'bp-xprofile-custom-field-types' );
+		$this->name     = __( 'Custom Range Input (HTML5 field)', 'bp-xprofile-custom-field-types' );
 		$this->category = _x( 'Custom Fields', 'xprofile field type category', 'bp-xprofile-custom-field-types' );
 
 		$this->accepts_null_value = true;
@@ -56,6 +56,60 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 			<?php bp_the_profile_field_name(); ?>
 			<?php bp_the_profile_field_required_label(); ?>
         </legend>
+
+		<!-- For visual demo only - not responsive to data changes by admin -->
+		<div class="rangeslider-wrap">
+  			<input type="range" min="150" max="210" step="0.1" labels="150, 160, 170, 180, 190, 200, 210">
+		</div>
+
+		<script>
+
+		jQuery(function($){
+
+			$('input[type="range"]').rangeslider({
+			// Feature detection the default is `true`.
+				// Set this to `false` if you want to use
+				// the polyfill also in Browsers which support
+				// the native <input type="range"> element.
+				polyfill: false,
+
+				// Default CSS classes
+				rangeClass: 'rangeslider',
+				disabledClass: 'rangeslider--disabled',
+				horizontalClass: 'rangeslider--horizontal',
+				fillClass: 'rangeslider__fill',
+				handleClass: 'rangeslider__handle',
+
+				// Callback function
+				onInit: function() {
+				$rangeEl = this.$range;
+				// add value label to handle
+				var $handle = $rangeEl.find('.rangeslider__handle');
+				var handleValue = '<div class="rangeslider__handle__value">' + this.value + '</div>';
+				$handle.append(handleValue);
+				
+				// get range index labels 
+				var rangeLabels = this.$element.attr('labels');
+				rangeLabels = rangeLabels.split(', ');
+				
+				// add labels
+				$rangeEl.append('<div class="rangeslider__labels"></div>');
+				$(rangeLabels).each(function(index, value) {
+					$rangeEl.find('.rangeslider__labels').append('<span class="rangeslider__labels__label">' + value + '</span>');
+				})
+				},
+
+				// Callback function
+				onSlide: function(position, value) {
+				var $handle = this.$range.find('.rangeslider__handle__value');
+				$handle.text(this.value);
+				},
+
+				// Callback function
+				onSlideEnd: function(position, value) {}
+			});
+		});
+		</script>
 
         <?php
 		// Errors.

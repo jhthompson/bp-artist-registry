@@ -45,6 +45,8 @@ function bpxcftr_get_field_types() {
 		// start of artist registry custom fields
 		'piechart'                     => 'BPXProfileCFTR\Field_Types\Field_Type_Checkbox_Piechart',
 		'leaflet_map'                  => 'BPXProfileCFTR\Field_Types\Field_Type_Leaflet_Map',
+		'rangeslider'                  => 'BPXProfileCFTR\Field_Types\Field_Type_Slider_Custom',
+
 	);
 
 	return $fields;

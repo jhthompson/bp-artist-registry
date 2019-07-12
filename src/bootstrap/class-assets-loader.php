@@ -114,7 +114,7 @@ class Assets_Loader {
 		wp_enqueue_script( 'leaflet-js' );
 		wp_enqueue_style( 'rangeslider' );
 		wp_enqueue_script( 'rangeslider-js' );
-
+		wp_enqueue_style( 'rangeslider-custom-income' );
 	}
 
 	/**
@@ -160,7 +160,10 @@ class Assets_Loader {
 
 		wp_register_style( 'rangeslider', $url . 'assets/vendors/rangeslider/rangeslider.css', array(), '2.3.0' );
 
-		wp_register_script( 'rangeslider-js', $url . "assets/vendors/rangeslider/rangeslider.js", array(), '2.3.0', false );
+		wp_register_script( 'rangeslider-js', $url . "assets/vendors/rangeslider/rangeslider.js", array( 'jquery' ), '2.3.0', false );
+
+		wp_register_style( 'rangeslider-custom-income', $url . 'assets/vendors/rangeslider/rangeslider-custom-income.css', array(), '2.3.0' );
+
 	}
 
 	/**
