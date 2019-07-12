@@ -60,12 +60,17 @@ class Field_Type_Leaflet_Map extends \BP_XProfile_Field_Type {
 		<div id="mapid" style="height: 400px;"></div>
 
 		<script>
-		var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+		var mymap = L.map('mapid').setView([46.5107, -63.4168], 8);
 
-		L.tileLayer('https://a.tile.openstreetmap.org/${z}/${x}/${y}.png', {
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    		maxZoom: 18,
+    		maxZoom: 16,
 			id: 'mapbox.streets'		
+		}).addTo(mymap);
+
+		var marker = L.marker([46.5107, -63.4168],{
+    		draggable: true,
+    		autoPan: true
 		}).addTo(mymap);
 
 		</script>
