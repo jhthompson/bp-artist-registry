@@ -72,7 +72,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		printf('
 		<div id="piechart-controls">
-			<canvas id="piechart" width="400" height="400">Your browser is too old!</canvas>
+			<canvas id="piechart" width="400" height="400" style="touch-action: none;">Your browser is too old!</canvas>
 			<br>
 			<table id="proportions-table"></table>
 			<br>
