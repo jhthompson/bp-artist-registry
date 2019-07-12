@@ -68,7 +68,7 @@ class Field_Type_Leaflet_Map extends \BP_XProfile_Field_Type {
 			id: 'mapbox.streets'		
 		}).addTo(mymap);
 
-		var marker = L.marker([46.5107, -63.4168],{
+		var marker = L.marker([46.332516, -63.391670],{
     		draggable: true,
     		autoPan: true
 		}).addTo(mymap);
