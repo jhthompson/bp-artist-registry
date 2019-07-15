@@ -59,7 +59,7 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 
 		<!-- For visual demo only - not responsive to data changes by admin -->
 		<div class="rangeslider-wrap">
-  			<input type="range" min="150" max="210" step="0.1" labels="150, 160, 170, 180, 190, 200, 210">
+  			<input type="range" min="0" max="150000" step="100" labels="0, 25000, 50000, 75000, 100000, 125000, 150000">
 		</div>
 
 		<script>
@@ -89,7 +89,7 @@ class Field_Type_Slider_Custom extends \BP_XProfile_Field_Type {
 				$handle.append(handleValue);
 				
 				// get range index labels 
-				var rangeLabels = "150, 160, 170, 180, 190, 200, 210"; //this.$element.attr('labels');
+				var rangeLabels = "0, 25000, 50000, 75000, 100000, 125000, 150000"; //this.$element.attr('labels');
 				rangeLabels = rangeLabels.split(', ');
 				
 				// add labels
