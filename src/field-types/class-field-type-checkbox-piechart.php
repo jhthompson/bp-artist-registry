@@ -48,6 +48,10 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 		do_action('bp_xprofile_field_type_checkbox_piechart', $this);
 	}
 
+	public function piechart_callback($new_html, $value, $id, $selected, $k) {
+		error_log(" HELLO PIE CHART CALLBACK " . $new_html . $value . $id . $selected . $k);
+	}
+
 	/**
 	 * Output the edit field options HTML for this field type.
 	 *
@@ -65,24 +69,26 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 	 */
 	public function edit_field_options_html(array $args = array())
 	{
+		//add_filter( 'bp_get_the_profile_field_options_checkbox', 'piechart_callback', 10, 3 );
+
 		// do everything that a normal checkbox would do
 		parent::edit_field_options_html($args);
 
 		// now do custom things to get selected values and output them in the pie chart
 
-		printf('
-		<div id="piechart-controls">
-			<canvas id="piechart" width="400" height="400" style="touch-action: none;">Your browser is too old!</canvas>
+		echo sprintf('
+		<div class="piechart-controls">
+			<canvas id="piechart-%1$s" width="400" height="400" style="touch-action: none;">Your browser is too old!</canvas>
 			<br>
-			<table id="proportions-table"></table>
+			<table id="proportions-table%1$s"></table>
 			<br>
-			<p id="piechart-instructions">
+			<p class="piechart-instructions">
 				Drag the circles or click the buttons to adjust the pie chart. If a segment has gone,
 				you can get it back by clicking its plus button.
 			</p>
 
 		</div>
-		');
+		', $this->field_obj->id);
 
 		printf("
 		<script>
@@ -118,6 +124,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 		");
 
 		$options       = $this->field_obj->get_children();
+		//print_r($options[0]);
 		foreach ($options as $value) {
 			//print_r($value);
 		}
@@ -137,20 +144,20 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 		<script>
 				
-		var newPie; // testing as global 
+		var newPie%6$s; // testing as global 
 
 		// Start by setting up all checkbox listeners and getting which ones are checked
-		var all_checkbox_ids = [%s]; // global for access in the on click method for table
+		var all_checkbox_ids_%3$s = [%1$s]; // global for access in the on click method for table
 
-		
+		// TODO: the below code does not allow for multiple pie charts on one page
 		window.onresize = function(event) {
-			if(newPie) {
+			if(newPie%6$s) {
 				console.log("trying to redraw?");
-				var canvas = document.getElementById("piechart");
+				var canvas = document.getElementById("piechart-%2$s");
 				var parent = document.getElementsByClassName("field_type_piechart")[0];
-				canvas.width = parent.offsetWidth * 0.75;
+				canvas.width = 400; //parent.offsetWidth * 0.75;
 				canvas.height = canvas.width;
-				newPie.draw();
+				newPie%6$s.draw();
 			}
 		};
 
@@ -166,34 +173,35 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 				}
 			}
 
-			ready(setupPieChart);
+			ready(setupPieChart%3$s);
 
 			function checkboxListener() {
 				alert("checked");
 			}
 
-			function setupPieChart() {
+			function setupPieChart%3$s() {
 
-				var canvas = document.getElementById("piechart");
+				//TODO: this does not allow for multiple pie charts on a page
+				var canvas = document.getElementById("piechart-%3$s");
 				var parent = document.getElementsByClassName("field_type_piechart")[0];
-				canvas.width = parent.offsetWidth * 0.75;
+				canvas.width = 400; //parent.offsetWidth * 0.75;
 				canvas.height = canvas.width;
 
 				var checkbox_ids_checked = [];
 
 				var i;
-				for (i = 0; i < all_checkbox_ids.length; i++) {
+				for (i = 0; i < all_checkbox_ids_%3$s.length; i++) {
 
-					//console.log(all_checkbox_ids[i]);
-					all_checkbox_ids[i].onclick = setupPieChart; // this allows checked and unchecked boxes to be added and removed from pie chart dynamically
+					console.log(all_checkbox_ids_%3$s[i]);
+					all_checkbox_ids_%3$s[i].onclick = setupPieChart%3$s; // this allows checked and unchecked boxes to be added and removed from pie chart dynamically
 															     // would be better if it was its own different function, not the original setup
-					if (all_checkbox_ids[i].checked) {
-						//console.log("adding " + all_checkbox_ids[i][\'value\'] + " to the checked ");
-					 	checkbox_ids_checked.push(all_checkbox_ids[i][\'value\']);
+					if (all_checkbox_ids_%3$s[i].checked) {
+						//console.log("adding " + all_checkbox_ids_%3$s[i][\'value\'] + " to the checked ");
+					 	checkbox_ids_checked.push(all_checkbox_ids_%3$s[i][\'value\']);
 					}
 				}
 
-				//var checkbox_ids_strings = all_checkbox_ids.map(function(element) {
+				//var checkbox_ids_strings = all_checkbox_ids_%3$s.map(function(element) {
 				//	return element[\'value\'];
 				//});
 
@@ -214,7 +222,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 
 				var setup = {
-					canvas: document.getElementById(\'piechart\'),
+					canvas: document.getElementById(\'piechart-%4$s\'),
 					radius: 0.9,
 					collapsing: true,
 					proportions: proportions,
@@ -222,11 +230,11 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					onchange: onPieChartChange
 				};
 
-				if (newPie) {
-					newPie.setData(setup);
+				if (newPie%6$s) {
+					newPie%6$s.setData(setup);
 					//console.log("pie chart already created");
 				} else {
-					newPie = new DraggablePiechart(setup); 
+					newPie%6$s = new DraggablePiechart(setup); 
 				}
 
 				function drawSegmentOutlineOnly(context, piechart, centerX, centerY, radius, startingAngle, arcSize, format, collapsed) {
@@ -251,10 +259,10 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 					context.translate(centerX, centerY);
 					context.rotate(startingAngle);
 
-					var canvasInner = document.getElementById("piechart");
+					var canvasInner = document.getElementById("piechart-%5$s");
 					var parentInner = document.getElementsByClassName("field_type_piechart")[0];
 
-					var fontSize = Math.floor(parentInner.offsetWidth / 35 );
+					var fontSize = 10; //Math.floor(parentInner.offsetWidth / 35 );
 					//console.log(fontSize);
 					var dx = radius - fontSize;
 					var dy = centerY / 10;
@@ -267,7 +275,7 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 
 				function onPieChartChange(piechart) {
 
-					var table = document.getElementById(\'proportions-table\');
+					var table = document.getElementById(\'proportions-table%4$s\');
 					var percentages = piechart.getAllSliceSizePercentages();
 
 					var labelsRow = \'<tr>\';
@@ -276,8 +284,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 						labelsRow += \'<th>\' + piechart.data[i].format.label + \'</th>\';
 
 						var v = \'<var>\' + percentages[i].toFixed(0) + \'</var>\';
-						var plus = \'<div id="plu-\' + newPie.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="-1">&#43;</div>\';
-						var minus = \'<div id="min-\' + newPie.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="1">&#8722;</div>\';
+						var plus = \'<div id="plu-\' + newPie%6$s.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="-1">&#43;</div>\';
+						var minus = \'<div id="min-\' + newPie%6$s.data[i].format.label + \'" class="adjust-button" data-i="\' + i + \'" data-d="1">&#8722;</div>\';
 						propsRow += \'<td>\' + v + plus + minus + \'</td>\';
 					}
 					labelsRow += \'</tr>\';
@@ -296,8 +304,8 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 						var name = this.getAttribute(\'id\').substr(4);
 
 						var i;
-						for(i = 0; i < all_checkbox_ids.length; i++) {
-							if (all_checkbox_ids[i][\'value\'] == name) {
+						for(i = 0; i < all_checkbox_ids_%3$s.length; i++) {
+							if (all_checkbox_ids_%3$s[i][\'value\'] == name) {
 								//console.log("We got a match " + name);
 							}
 						}
@@ -375,6 +383,6 @@ class Field_Type_Checkbox_Piechart extends \BP_XProfile_Field_Type_Checkbox
 		})();
 
 		</script>
-		', $checkbox_string, $options[0]->name);
+		', $checkbox_string, $options[0]->name, $this->field_obj->id, $this->field_obj->id, $this->field_obj->id, $this->field_obj->id);
 	}
 }
